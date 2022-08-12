@@ -87,7 +87,7 @@ const TableComponent = () => {
         });
       }
     }
-  }
+  };
 
   const handlePanelSubmit = (item: iCompanyItem) => {
 
@@ -203,7 +203,6 @@ const TableComponent = () => {
       const pageSizeNum = parseInt(pagingInfo.pageSize)
       setRequests(sortedData);
       setPagedRequest(clientPaginate(myRequests, 1, pageSizeNum));
-const Database = require("@replit/database")
     }
   }, [canSortColumns]);
 
