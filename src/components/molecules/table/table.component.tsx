@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { IconButton, MessageBar, MessageBarType, MessageBarButton } from "@fluentui/react";
+import { IconButton } from "@fluentui/react";
 import { DetailsList, DetailsRow, DetailsHeader, SelectionMode, IDetailsRowStyles } from '@fluentui/react/lib/DetailsList';
 import { Spinner } from '@fluentui/react';
 
@@ -11,6 +11,7 @@ import { copyAndSort } from './table.util';
 import CustomStatusDropdown from '../../atoms/status-dropdown/status-dropdown.component';
 
 import CustomPanelComponent from '../panel/panel.component';
+import CustomButtonComponent from '../../atoms/custom-button/custom-button.component';
 import RequestFilterSearchBox from '../search/search-box.component';
 import { getCompanies } from '../../../services/companies';
 import PagingToolbarComponent, {
@@ -436,6 +437,14 @@ const TableComponent = () => {
               placeholder="Search within Company or CEO"
               reset={resetSearch}
             />
+            <div className={styles.addButtonWrap}>
+              <CustomButtonComponent
+                handleClick={() => console.log('hi')}
+                iconName="Add"
+                primary={true}
+                text="Add"
+              />
+            </div>
             <CustomStatusDropdown
               label="Filter Status"
               onClearValue={() => dropdownStatusClear()}

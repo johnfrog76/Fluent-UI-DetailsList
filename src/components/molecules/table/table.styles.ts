@@ -45,7 +45,15 @@ export const styles = mergeStyleSets({
     border: '1px solid #ccc',
     borderRadius: '6px',
   },
+  addButtonWrap: {
+    flex: '1',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   filtersWrapper: {
+    border: '1px solid green',
     width: '50%',
     "@media(max-width: 767px)": {
       width: '100%',
