@@ -45,16 +45,31 @@ export const styles = mergeStyleSets({
     border: '1px solid #ccc',
     borderRadius: '6px',
   },
+  tableToolbar: {
+    "@media(max-width: 767px)": {
+      display: 'block',
+    },
+  },
   addButtonWrap: {
     flex: '1',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
+    paddingLeft: '1rem',
+    "@media(max-width: 767px)": {
+      display: 'block',
+      paddingLeft: '0',
+      button: {
+        width: '100%',
+        '> span > span': {
+          flexGrow: 'unset'
+        }
+      },
+    },
   },
   filtersWrapper: {
-    border: '1px solid green',
-    width: '50%',
+    width: '60%',
     "@media(max-width: 767px)": {
       width: '100%',
     },
