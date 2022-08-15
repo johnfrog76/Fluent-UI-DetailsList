@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { IconButton, MessageBar, MessageBarType, MessageBarButton } from "@fluentui/react";
+import { IconButton, Stack, MessageBar, MessageBarType } from "@fluentui/react";
 import { DetailsList, DetailsRow, DetailsHeader, SelectionMode, IDetailsRowStyles } from '@fluentui/react/lib/DetailsList';
 import { Spinner } from '@fluentui/react';
 
@@ -10,7 +10,8 @@ import { styles, spinnerStyles } from './table.styles';
 import { copyAndSort } from './table.util';
 import CustomStatusDropdown from '../../atoms/status-dropdown/status-dropdown.component';
 
-import CustomPanelComponent from '../panel/panel.component';
+import CustomPanelComponent, { emptyCompanyItem } from '../panel/panel.component';
+import CustomButtonComponent from '../../atoms/custom-button/custom-button.component';
 import RequestFilterSearchBox from '../search/search-box.component';
 import { getCompanies } from '../../../services/companies';
 import PagingToolbarComponent, {
@@ -38,6 +39,7 @@ const TableComponent = () => {
   const [columns, setColumns] = useState<iDetailsListColumn[]>([]);
   const [canSortColumns, setCanSortColumns] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenCreate, setIsOpenCreate] = useState(false);
 
   const [updateSuccess, setUpdateSuccess] = useState<boolean>(false);
   const [pagedRequest, setPagedRequest] = useState<iCompanyItem[] | undefined>(undefined);
@@ -89,6 +91,35 @@ const TableComponent = () => {
     }
   };
 
+  const handlePanelCreate = (item: iCompanyItem) => {
+    if (pagedRequest && pagedRequest.length > 0) {
+      data.unshift(item);
+      setRequests(data);
+    }
+
+    if (filteredRequest && filteredRequest.length > 0) {
+      filteredRequest.unshift(item);
+    }
+
+    if (filteredRequest && filteredRequest.length > 0) {
+      setPagingInfo({
+        ...pagingInfo,
+        currentPage: 1,
+        firstItemNumber: 1,
+        lastItemNumber: Number(pagingInfo.pageSize),
+        totalCount: filteredRequest.length
+      });      
+    } else {
+      setPagingInfo({
+        ...pagingInfo,
+        currentPage: 1,
+        firstItemNumber: 1,
+        lastItemNumber: Number(pagingInfo.pageSize),
+        totalCount:requests.length
+      });
+    }
+  };
+
   const handlePanelSubmit = (item: iCompanyItem) => {
 
     if (pagedRequest && pagedRequest.length > 0) {
@@ -109,10 +140,11 @@ const TableComponent = () => {
     setTimeout(() => {
       setUpdateSuccess(false);
     }, 3000)
-  }
+  };
 
   const handlePanelDismiss = () => {
     setIsOpen(false);
+    setIsOpenCreate(false);
   };
 
 
@@ -152,7 +184,7 @@ const TableComponent = () => {
     }
   };
 
-  const onColumnClickSort = (ev: Event, column: any) => {
+  const onColumnClickSort = (evt: Event, column: any) => {
     if (filteredRequest && filteredRequest.length === 0) {
       setFilteredRequest(undefined);
     }
@@ -421,8 +453,15 @@ const TableComponent = () => {
         )
       }
       <CustomPanelComponent
+        isOpen={isOpenCreate}
+        headerText="Create New Item"
+        item={emptyCompanyItem}
+        onDismiss={() => handlePanelDismiss()}
+        onSubmit={(item) => handlePanelCreate(item)}
+      />
+      <CustomPanelComponent
         isOpen={isOpen}
-        headerText="Company Details"
+        headerText="Edit Company Details"
         item={selectedPanelItem}
         onDismiss={() => handlePanelDismiss()}
         onSubmit={(item) => handlePanelSubmit(item)}
@@ -430,22 +469,32 @@ const TableComponent = () => {
       <h3 className={styles.tableHeading}>Company Data</h3>
       <div>
         {!isLoading && (
-          <div className={styles.filtersWrapper}>
-            <RequestFilterSearchBox
-              search={(value: string) => searchHandler(value)}
-              placeholder="Search within Company or CEO"
-              reset={resetSearch}
-            />
-            <CustomStatusDropdown
-              label="Filter Status"
-              onClearValue={() => dropdownStatusClear()}
-              handleChange={(evt) => {
-                const value = evt.target.value.key;
-                dropdownStatusChange(value);
-              }}
-              currentValue={currentDropdownValue}
-            />
-          </div>
+          <Stack className={styles.tableToolbar} horizontal horizontalAlign='space-between' reversed>
+            <Stack className={styles.addButtonWrap}>
+              <CustomButtonComponent
+                handleClick={() => setIsOpenCreate(true)}
+                iconName="Add"
+                primary={true}
+                text="Add"
+              />
+            </Stack>
+            <Stack className={styles.filtersWrapper} horizontal horizontalAlign='space-between'>
+                <RequestFilterSearchBox
+                  search={(value: string) => searchHandler(value)}
+                  placeholder="Search within Company or CEO"
+                  reset={resetSearch}
+                />
+                <CustomStatusDropdown
+                  label="Filter Status"
+                  onClearValue={() => dropdownStatusClear()}
+                  handleChange={(evt) => {
+                    const value = evt.target.value.key;
+                    dropdownStatusChange(value);
+                  }}
+                  currentValue={currentDropdownValue}
+                />
+            </Stack>
+          </Stack>
         )
         }
         {filteredRequest === undefined || filteredRequest.length > 0 ? (

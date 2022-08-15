@@ -1,4 +1,5 @@
 import { FC, useState, useEffect } from "react";
+import { v4 as uuidv4 } from 'uuid';
 import { Panel, PanelType } from "@fluentui/react/lib/Panel";
 import { PrimaryButton, DefaultButton } from "@fluentui/react";
 import { statusItems, formatEarningsField, formatDateField } from './panel.util';
@@ -12,6 +13,15 @@ interface Props {
   onDismiss: () => void;
   item: iCompanyItem;
   onSubmit: (item: iCompanyItem) => void;
+}
+
+export const emptyCompanyItem:iCompanyItem = {
+  column1: '',
+  column2: '',
+  column3: 200000,
+  column4: new Date().getTime(),
+  column5: 6,
+  id: uuidv4()
 }
 
 const CustomPanelComponent: FC<Props> = ({ isOpen, onDismiss, onSubmit, headerText, item }) => {
