@@ -50,7 +50,7 @@ const TableComponent = () => {
   const [data, setData] = useState<iCompanyItem[]>([]);
   const [currentDropdownValue, setCurrentDropdownValue] = useState<number>(-1);
   const [resetSearch, setResetSearch] = useState<boolean>(false);
-  const {currentTheme, currentPalette} = useContext(ThemeContext);
+  const {currentPalette} = useContext(ThemeContext);
 
   const handlePageChange = (currentPage: number, pageSize: string) => {
     setPagingInfo(updatePagination(currentPage, pageSize, pagingInfo));
@@ -200,11 +200,10 @@ const TableComponent = () => {
   };
 
   const renderRow = props => {
-    const {palette} = currentPalette;
     const rowStyles: Partial<IDetailsRowStyles> = {
       root: {
         fontSize: '16px',
-        color: filteredRequest ? palette['themeDarkAlt'] : 'inherit',
+        color: filteredRequest ? currentPalette['themeDarkAlt'] : 'inherit',
       }
     }
     return <DetailsRow {...props} styles={rowStyles} />

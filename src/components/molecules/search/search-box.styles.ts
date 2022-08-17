@@ -39,8 +39,8 @@ export const styles = mergeStyleSets({
     },
   },
   activeSearchLabel: {
-    backgroundColor: 'teal',
-    color: '#fff',
+    backgroundColor: '#ccc',
+    color: 'inherit',
     padding: '0.25rem 0.75rem',
   }
 });
