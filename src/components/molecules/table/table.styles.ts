@@ -1,14 +1,13 @@
-import { mergeStyleSets } from "@fluentui/react";
+import { mergeStyleSets, DefaultPalette, ISpinnerProps } from "@fluentui/react";
 
 export const styles = mergeStyleSets({
   tableHeading: {
     fontWeight: 'normal',
-    color: '#333'
   },
   listStyle: {
     height: 'auto',
     boxShadow: "rgb(0 0 0 / 13%) 0px 0px 1px 1px",
-    backgroundColor: "#fff",
+    backgroundColor: "transparent",
     padding: "0",
     overflowY: "auto",
     overflowX: "auto",
