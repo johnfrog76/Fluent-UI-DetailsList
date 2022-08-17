@@ -1,5 +1,5 @@
-import React, { useContext, createContext, useState, FC } from "react";
-import {ThemeProvider,createTheme, Theme } from "@fluentui/react";
+import React, { createContext, useState, FC, useEffect } from "react";
+import {ThemeProvider, createTheme, Theme } from "@fluentui/react";
 
 export enum ThemeEnum {
     Dark = 'Dark',
@@ -75,6 +75,7 @@ export const TeamsTheme: Theme = createTheme({
 export type ThemeContextType = {
     currentTheme: ThemeEnum;
     setCurrentTheme: (theme: ThemeEnum) => void;
+    currentPalette: Theme;
 }
 
 interface Props {
@@ -82,21 +83,28 @@ interface Props {
 }
 
 export const ThemeContext = createContext<ThemeContextType>({
-    currentTheme: ThemeEnum.Dark,
+    currentTheme: ThemeEnum.Light,
     setCurrentTheme: (theme) => { },
+    currentPalette: TeamsTheme
 });
+
 
 const MyTheme: FC<Props> = ({ children }) => {
 
     const [currentTheme, setCurrentTheme] = useState(ThemeEnum.Light);
+    const [currentPalette, setCurrentPalette] = useState<Theme>(TeamsTheme);
+    
+    useEffect(() => {
+      setCurrentPalette(currentTheme === ThemeEnum.Dark ? myTheme: TeamsTheme)
+    }, [currentTheme])
 
     return (
-        <ThemeContext.Provider value={{currentTheme, setCurrentTheme}}>
+        <ThemeContext.Provider value={{currentTheme, setCurrentTheme, currentPalette}}>
           
           {
           <ThemeProvider
             applyTo="body"
-            theme={currentTheme === ThemeEnum.Dark ? myTheme: TeamsTheme}
+            theme={currentPalette}
           >{children}</ThemeProvider >
           }
         </ThemeContext.Provider>

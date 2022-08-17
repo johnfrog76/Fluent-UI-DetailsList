@@ -1,6 +1,7 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useState, useEffect, useContext } from "react";
 import { IconButton, Stack } from "@fluentui/react";
 import CustomInput, { InputTypes } from "../../atoms/input/custom-input.component";
+import { ThemeContext, ThemeEnum } from '../../../providers/theme/theme.provider';
 
 import { styles } from "./search-box.styles";
 
@@ -15,7 +16,9 @@ interface Props {
 const RequestFilterSearchBox: FC<Props> = ({ search, placeholder, reset }) => {
   const [value, setValue] = useState('');
   const [currentSearch, setCurrentSearch] = useState('');
-  const [submitDisabled, setSubmitDisabled] = useState(false)
+  const [submitDisabled, setSubmitDisabled] = useState(false);
+  const {currentTheme, currentPalette} = useContext(ThemeContext);
+  const {palette} = currentPalette;
 
   const resetSearch = () => {
     setValue('');
@@ -46,6 +49,7 @@ const RequestFilterSearchBox: FC<Props> = ({ search, placeholder, reset }) => {
     }
     
   }, [reset]);
+  
 
   return (
     <Stack tokens={containerStackTokens} className={styles.section} horizontal>
@@ -55,7 +59,7 @@ const RequestFilterSearchBox: FC<Props> = ({ search, placeholder, reset }) => {
           className={styles.textinput}
           name='search'
           label={currentSearch !== '' ? (
-            <span className={styles.activeSearchLabel}>{`Searching "${currentSearch}"`}</span>
+            <span className={styles.activeSearchLabel} style={{backgroundColor: 'blue'}}>{`Searching "${currentSearch}"`}</span>
           ) : 'Enter Search Text'}
           value={value}
           placeholder={placeholder}

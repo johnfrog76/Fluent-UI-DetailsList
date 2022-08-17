@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useContext } from 'react';
 import { IconButton, Stack, MessageBar, MessageBarType } from "@fluentui/react";
 import { DetailsList, DetailsRow, DetailsHeader, SelectionMode, IDetailsRowStyles } from '@fluentui/react/lib/DetailsList';
 import { Spinner } from '@fluentui/react';
@@ -10,6 +10,7 @@ import { styles, spinnerStyles } from './table.styles';
 import { copyAndSort } from './table.util';
 import CustomStatusDropdown from '../../atoms/status-dropdown/status-dropdown.component';
 
+import { ThemeContext, ThemeEnum } from '../../../providers/theme/theme.provider';
 import CustomPanelComponent, { emptyCompanyItem } from '../panel/panel.component';
 import CustomButtonComponent from '../../atoms/custom-button/custom-button.component';
 import RequestFilterSearchBox from '../search/search-box.component';
@@ -49,6 +50,7 @@ const TableComponent = () => {
   const [data, setData] = useState<iCompanyItem[]>([]);
   const [currentDropdownValue, setCurrentDropdownValue] = useState<number>(-1);
   const [resetSearch, setResetSearch] = useState<boolean>(false);
+  const {currentTheme, currentPalette} = useContext(ThemeContext);
 
   const handlePageChange = (currentPage: number, pageSize: string) => {
     setPagingInfo(updatePagination(currentPage, pageSize, pagingInfo));
@@ -198,10 +200,11 @@ const TableComponent = () => {
   };
 
   const renderRow = props => {
+    const {palette} = currentPalette;
     const rowStyles: Partial<IDetailsRowStyles> = {
       root: {
         fontSize: '16px',
-        color: filteredRequest ? 'teal' : 'inherit',
+        color: filteredRequest ? palette['themeDarkAlt'] : 'inherit',
       }
     }
     return <DetailsRow {...props} styles={rowStyles} />
