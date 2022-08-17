@@ -201,7 +201,7 @@ const TableComponent = () => {
     const rowStyles: Partial<IDetailsRowStyles> = {
       root: {
         fontSize: '16px',
-        color: filteredRequest ? 'teal' : '#333',
+        color: filteredRequest ? 'teal' : 'inherit',
       }
     }
     return <DetailsRow {...props} styles={rowStyles} />
