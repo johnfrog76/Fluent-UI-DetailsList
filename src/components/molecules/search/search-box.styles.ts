@@ -7,9 +7,10 @@ export const styles = mergeStyleSets({
     marginBottom: '16px',
   },
   iconbutton: {
-    color: '#000',
+    color: 'inherit',
     ':disabled': {
       backgroundColor: 'transparent',
+      cursor: 'not-allowed',
     },
     ':hover, :active': {
       backgroundColor: 'transparent',

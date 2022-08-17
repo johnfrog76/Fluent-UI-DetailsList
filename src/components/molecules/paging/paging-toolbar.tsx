@@ -2,47 +2,7 @@
 import { FC } from "react";
 import { IconButton, mergeStyleSets, Stack, Dropdown } from "@fluentui/react";
 import { iPageObj } from '../../../models/paging/paging';
-
-const styles = mergeStyleSets({
-  toolbar: {
-    height: '50px',
-    alignItems: 'center',
-    padding: '0 10px',
-  },
-  pageindicator: {
-    margin: '0 5px',
-  },
-  footericon: {
-    ":first-of-type": {
-      marginRight: "0.25rem",
-    },
-    ":last-of-type": {
-      marginLeft: "0.25rem",
-    },
-    color: 'inherit',
-    ':disabled': {
-      backgroundColor: 'rgba(0,0,0,0.05)',
-      cursor: 'not-allowed',
-    }
-  },
-  pagingcontrols: {
-    display: 'flex',
-    alignItems: 'center'
-  },
-  paginglabel: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  dropdownStyles: {
-    display: 'flex',
-    alignItems: 'center',
-    label: {
-      margin: '0 5px 0 20px',
-      fontWeight: 'normal'
-    }
-  }
-});
-
+import { styles } from './paging-toolbar.styles';
 
 export const DEFAULT_PAGE_SIZE = '5';
 
@@ -101,7 +61,7 @@ export const updatePagination = (newCurrentPage: number, newPageSize: string | n
 const PagingToolbarComponent: FC<Props> = ({ onPageUpdate, pageOptions, defaultOption, displayDropdown = true, ...pagingInfo }) => {
 
   const { currentPage, firstItemNumber, lastItemNumber, totalCount, pageSize } = pagingInfo;
-
+  const pagingLabelTemplate = `${firstItemNumber} - ${Math.min(lastItemNumber, totalCount)} of ${totalCount} selected`;
   const handlePageClick = (type: string, size = pageSize) => {
     let page = 1;
     switch (type) {
@@ -130,7 +90,7 @@ const PagingToolbarComponent: FC<Props> = ({ onPageUpdate, pageOptions, defaultO
       <Stack.Item className={styles.paginglabel}>
         {
           totalCount && (
-            <span>{firstItemNumber} - {Math.min(lastItemNumber, totalCount)} of {totalCount} selected</span>
+            <span title={pagingLabelTemplate}>{pagingLabelTemplate}</span>
           )
         }
         {
