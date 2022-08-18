@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useContext } from 'react';
-import { IconButton, Stack, MessageBar, MessageBarType } from "@fluentui/react";
+import { IconButton, Stack, MessageBar, MessageBarType, useTheme } from "@fluentui/react";
 import { DetailsList, DetailsRow, DetailsHeader, SelectionMode, IDetailsRowStyles } from '@fluentui/react/lib/DetailsList';
 import { Spinner } from '@fluentui/react';
 
@@ -50,7 +50,7 @@ const TableComponent = () => {
   const [data, setData] = useState<iCompanyItem[]>([]);
   const [currentDropdownValue, setCurrentDropdownValue] = useState<number>(-1);
   const [resetSearch, setResetSearch] = useState<boolean>(false);
-  const {currentPalette} = useContext(ThemeContext);
+  const {palette} = useTheme();
 
   const handlePageChange = (currentPage: number, pageSize: string) => {
     setPagingInfo(updatePagination(currentPage, pageSize, pagingInfo));
@@ -203,7 +203,7 @@ const TableComponent = () => {
     const rowStyles: Partial<IDetailsRowStyles> = {
       root: {
         fontSize: '16px',
-        color: filteredRequest ? currentPalette['themeDarkAlt'] : 'inherit',
+        color: filteredRequest ? palette['themeDarkAlt'] : 'inherit',
       }
     }
     return <DetailsRow {...props} styles={rowStyles} />

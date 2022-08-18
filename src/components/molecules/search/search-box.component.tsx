@@ -1,7 +1,6 @@
 import { FC, useState, useEffect, useContext, CSSProperties } from "react";
-import { IconButton, Stack } from "@fluentui/react";
+import { IconButton, Stack, useTheme } from "@fluentui/react";
 import CustomInput, { InputTypes } from "../../atoms/input/custom-input.component";
-import { ThemeContext } from '../../../providers/theme/theme.provider';
 
 import { styles } from "./search-box.styles";
 
@@ -18,10 +17,10 @@ const RequestFilterSearchBox: FC<Props> = ({ search, placeholder, reset }) => {
   const [currentSearch, setCurrentSearch] = useState('');
   const [submitDisabled, setSubmitDisabled] = useState(false);
   
-  const { currentPalette } = useContext(ThemeContext);
+  const {palette} = useTheme();
   const tabStyle: CSSProperties = {
-    backgroundColor: currentPalette['themeDarkAlt'],
-    color: currentPalette['white']
+    backgroundColor: palette['themeDarkAlt'],
+    color: palette['white']
   };
 
   const resetSearch = () => {
