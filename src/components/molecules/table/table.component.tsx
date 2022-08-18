@@ -307,9 +307,9 @@ const TableComponent = () => {
       key: "editStatus",
       name: "",
       fieldName: "",
-      minWidth: 10,
-      maxWidth: 10,
-      isResizable: true,
+      minWidth: 20,
+      maxWidth: 20,
+      isResizable: false,
       onRender: (item) => {
         return (
           <IconButton
