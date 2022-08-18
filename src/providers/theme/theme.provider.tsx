@@ -7,14 +7,12 @@ export enum ThemeEnum {
     Light = 'Light',
 }
 
-const myTheme:Theme = createTheme(DARK_THEME);
-const TeamsTheme: Theme = createTheme(LIGHT_THEME);
+const darkTheme:Theme = createTheme(DARK_THEME);
+const lightTheme: Theme = createTheme(LIGHT_THEME);
 
 export type ThemeContextType = {
     currentTheme: ThemeEnum;
     setCurrentTheme: (theme: ThemeEnum) => void;
-    currentPalette: IPalette;
-    usedTheme: Theme;
 }
 
 interface Props {
@@ -24,27 +22,21 @@ interface Props {
 export const ThemeContext = createContext<ThemeContextType>({
     currentTheme: ThemeEnum.Light,
     setCurrentTheme: (theme) => { },
-    currentPalette: TeamsTheme.palette,
-    usedTheme: TeamsTheme
 });
 
 const MyTheme: FC<Props> = ({ children }) => {
   const [currentTheme, setCurrentTheme] = useState(ThemeEnum.Light);
-  const [currentPalette, setCurrentPalette] = useState<IPalette>(TeamsTheme.palette);
-  const [usedTheme, setUsedTheme] = useState<Theme>(TeamsTheme)
+  const [usedTheme, setUsedTheme] = useState<Theme>(lightTheme);
 
   useEffect(() => {
-    const choosenTheme = currentTheme === ThemeEnum.Dark ? myTheme : TeamsTheme;
-    setCurrentPalette(choosenTheme.palette);
-    setUsedTheme(choosenTheme);
+    const tempTheme = currentTheme === ThemeEnum.Dark ? darkTheme : lightTheme;
+    setUsedTheme(tempTheme);
   }, [currentTheme])
 
   return (
     <ThemeContext.Provider value={{
       currentTheme,
-      setCurrentTheme,
-      currentPalette,
-      usedTheme
+      setCurrentTheme
     }}>
       <ThemeProvider
         applyTo="body"
