@@ -59,6 +59,7 @@ export const styles = mergeStyleSets({
     "@media(max-width: 767px)": {
       display: 'block',
       paddingLeft: '0',
+      marginBottom: '1.5rem',
       button: {
         width: '100%',
         '> span > span': {
