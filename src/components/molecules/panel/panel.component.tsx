@@ -2,7 +2,7 @@ import { FC, useState, useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { Panel, PanelType } from "@fluentui/react/lib/Panel";
 import { PrimaryButton, DefaultButton } from "@fluentui/react";
-import { statusItems, formatEarningsField, formatDateField } from './panel.util';
+import { statusItems, formatEarningsField, currencyStringToNumber } from './panel.util';
 import { buttonStyles, errorLabelStyle } from './panel.styles';
 import CustomInput, { InputTypes } from "../../atoms/input/custom-input.component";
 import { iCompanyItem } from '../../../models/company/company';
@@ -61,7 +61,7 @@ const CustomPanelComponent: FC<Props> = ({ isOpen, onDismiss, onSubmit, headerTe
   }, [isOpen]);
 
   const handleSubmit = () => {
-    onSubmit(formObj)
+    onSubmit(formObj);
     setFormObj(null);
     setIsDirty(false);
     onDismiss();
@@ -122,9 +122,11 @@ const CustomPanelComponent: FC<Props> = ({ isOpen, onDismiss, onSubmit, headerTe
             type={InputTypes.TEXTFIELD}
             label="Earnings"
             name="column3"
-            disabled
             value={formatEarningsField(formObj?.column3)}
-            onChange={(evt) => handleChange(evt)}
+            onChange={(evt) => {
+              evt.target.value = currencyStringToNumber(evt.target.value || 0);
+              handleChange(evt);
+            }}
           />
           <CustomInput
             type={InputTypes.DATEPICKER}
