@@ -42,6 +42,7 @@ const TableComponent = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenCreate, setIsOpenCreate] = useState(false);
 
+  const [createSuccess, setCreateSuccess] = useState<boolean>(false);
   const [updateSuccess, setUpdateSuccess] = useState<boolean>(false);
   const [pagedRequest, setPagedRequest] = useState<iCompanyItem[] | undefined>(undefined);
   const [filteredRequest, setFilteredRequest] = useState<iCompanyItem[] | undefined>(undefined);
@@ -120,6 +121,11 @@ const TableComponent = () => {
         totalCount:requests.length
       });
     }
+  
+    setCreateSuccess(true);
+    setTimeout(() => {
+      setCreateSuccess(false);
+    }, 3000); 
   };
 
   const handlePanelSubmit = (item: iCompanyItem) => {
@@ -141,7 +147,7 @@ const TableComponent = () => {
     setUpdateSuccess(true);
     setTimeout(() => {
       setUpdateSuccess(false);
-    }, 3000)
+    }, 3000);
   };
 
   const handlePanelDismiss = () => {
@@ -446,6 +452,15 @@ const TableComponent = () => {
   return (
     <>
       {
+        createSuccess && (
+          <MessageBar
+            messageBarType={MessageBarType.success}
+            isMultiline={false}
+          >Create Success!
+          </MessageBar>
+        )
+      }
+      {
         updateSuccess && (
           <MessageBar
             messageBarType={MessageBarType.success}
@@ -483,7 +498,9 @@ const TableComponent = () => {
             <Stack className={styles.filtersWrapper} horizontal horizontalAlign='space-between'>
                 <RequestFilterSearchBox
                   search={(value: string) => searchHandler(value)}
-                  placeholder="Search within Company or CEO"
+                  placeholder="Search"
+                  labelText="Search Company and CEO Fields"
+                  showSearchButton={false}
                   reset={resetSearch}
                 />
                 <CustomStatusDropdown
