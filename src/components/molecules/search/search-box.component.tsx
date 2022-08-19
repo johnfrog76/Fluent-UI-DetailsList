@@ -1,5 +1,5 @@
 import { FC, useState, useEffect, useContext, CSSProperties } from "react";
-import { IconButton, Stack, useTheme } from "@fluentui/react";
+import { IconButton, Stack, SearchBox, ISearchBoxProps, useTheme, Label } from "@fluentui/react";
 import CustomInput, { InputTypes } from "../../atoms/input/custom-input.component";
 
 import { styles } from "./search-box.styles";
@@ -8,12 +8,14 @@ const containerStackTokens = { childrenGap: 10 };
 
 interface Props {
   placeholder: string;
-  search: (value: string) => void;
-  reset: boolean
+  search: (searchQuery: string) => void;
+  reset: boolean,
+  labelText: string;
+  showSearchButton?: boolean 
 }
 
-const RequestFilterSearchBox: FC<Props> = ({ search, placeholder, reset }) => {
-  const [value, setValue] = useState('');
+const RequestFilterSearchBox: FC<Props> = ({ search, placeholder, reset, labelText, showSearchButton = true }) => {
+  const [searchQuery, setSearchQuery] = useState('');
   const [currentSearch, setCurrentSearch] = useState('');
   const [submitDisabled, setSubmitDisabled] = useState(false);
   
@@ -24,7 +26,7 @@ const RequestFilterSearchBox: FC<Props> = ({ search, placeholder, reset }) => {
   };
 
   const resetSearch = () => {
-    setValue('');
+    setSearchQuery('');
     search('');
     setCurrentSearch('');
     setSubmitDisabled(false);
@@ -33,14 +35,14 @@ const RequestFilterSearchBox: FC<Props> = ({ search, placeholder, reset }) => {
   const focusResetSearch = () => {
     search('');
     setCurrentSearch('');
-    if (value?.length > 0) {
+    if (searchQuery?.length > 0) {
       setSubmitDisabled(false);
     }
   }
 
   const handleSubmitSearch = () => {
-    setCurrentSearch(value);
-    search(value);
+    setCurrentSearch(searchQuery);
+    search(searchQuery);
     setSubmitDisabled(true);
   };
 
@@ -48,55 +50,80 @@ const RequestFilterSearchBox: FC<Props> = ({ search, placeholder, reset }) => {
     if (reset===true) {
       setSubmitDisabled(false);
       setCurrentSearch('');
-      setValue('')
+      setSearchQuery('')
     }
     
   }, [reset]);
   
   return (
-    <Stack tokens={containerStackTokens} className={styles.section} horizontal>
+    <Stack tokens={containerStackTokens} style={{width: '100%'}} className={styles.section} horizontal>
+      { !showSearchButton ? (
       <Stack className={styles.searchwrap}>
-        <CustomInput
-          type={InputTypes.TEXTFIELD}
-          className={styles.textinput}
-          name='search'
-          label={currentSearch !== '' ? (
+
+        <Label>{currentSearch !== '' ? (
             <span className={styles.activeSearchLabel} style={tabStyle}>{`Searching "${currentSearch}"`}</span>
-          ) : 'Enter Search Text'}
-          value={value}
-          placeholder={placeholder}
-          onKeyPress={(evt) => {
-            const pressedEnter = evt.key === "Enter";
-            if (pressedEnter) {
-              handleSubmitSearch();
-              evt.target.blur();
+          ) : labelText }</Label>
+        <SearchBox
+          placeholder={ placeholder }
+          onSearch={() => handleSubmitSearch()}
+          onChange={(evt) => {
+            if (evt) {
+              setSearchQuery(evt.target.value)
+            } else {
+              setSearchQuery('')
             }
           }}
-          onChange={(evt) => setValue(evt.target.value)}
-          onFocus={() => focusResetSearch()}
+          value={searchQuery}
+          onClear={() => resetSearch()}
+          defaultValue={searchQuery}
         />
-        <Stack className={styles.actionsWrapper}>
-          {
-            value?.length > 0 && (
-              <IconButton
-                className={styles.iconbutton}
-                ariaLabel="clear search"
-                iconProps={{ iconName: "cancel" }}
-                title="Clear Search"
-                onClick={() => resetSearch()}
-              />
-            )
-          }
-          <IconButton
-            className={styles.iconbutton}
-            ariaLabel="search"
-            iconProps={{ iconName: "search" }}
-            disabled={value === '' || submitDisabled}
-            title="Search"
-            onClick={() => handleSubmitSearch()}
-          />
-        </Stack>
       </Stack>
+      
+      ) : (
+      <Stack className={styles.searchwrap}>
+         <CustomInput
+           type={InputTypes.TEXTFIELD}
+           className={styles.textinput}
+              name='search'
+              label={currentSearch !== '' ? (
+            <span className={styles.activeSearchLabel} style={tabStyle}>{`Searching "${currentSearch}"`}</span>
+          ) : labelText }
+           value={searchQuery}
+           placeholder={placeholder}
+           onKeyPress={(evt) => {
+             const pressedEnter = evt.key === "Enter";
+             if (pressedEnter) {
+               handleSubmitSearch();
+               evt.target.blur();
+             }
+           }}
+           onChange={(evt) => setSearchQuery(evt.target.value)}
+           onFocus={() => focusResetSearch()}
+         />
+         <Stack className={styles.actionsWrapper}>
+           {
+             searchQuery?.length > 0 && (
+               <IconButton
+                 className={styles.iconbutton}
+                 ariaLabel="clear search"
+                 iconProps={{ iconName: "cancel" }}
+                 title="Clear Search"
+                 onClick={() => resetSearch()}
+               />
+             )
+           }
+           <IconButton
+             className={styles.iconbutton}
+             ariaLabel="search"
+             iconProps={{ iconName: "search" }}
+             disabled={searchQuery === '' || submitDisabled}
+             title="Search"
+             onClick={() => handleSubmitSearch()}
+           />
+         </Stack>
+      </Stack>
+      )
+    }
     </Stack>
   );
 };
