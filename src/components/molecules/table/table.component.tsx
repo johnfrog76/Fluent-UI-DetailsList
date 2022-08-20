@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useContext } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { IconButton, Stack, MessageBar, MessageBarType, useTheme } from "@fluentui/react";
 import { DetailsList, DetailsRow, DetailsHeader, SelectionMode, IDetailsRowStyles } from '@fluentui/react/lib/DetailsList';
 import { Spinner } from '@fluentui/react';
@@ -8,16 +8,15 @@ import { iDetailsListColumn } from '../../../models/table/table';
 import { iCompanyItem, recordStatusEnum } from '../../../models/company/company';
 import { styles, spinnerStyles } from './table.styles';
 import { copyAndSort } from './table.util';
+import MessageBarComponent from '../message/message.component';
 import CustomStatusDropdown from '../../atoms/status-dropdown/status-dropdown.component';
 
-import { ThemeContext, ThemeEnum } from '../../../providers/theme/theme.provider';
 import CustomPanelComponent, { emptyCompanyItem } from '../panel/panel.component';
 import CustomButtonComponent from '../../atoms/custom-button/custom-button.component';
 import RequestFilterSearchBox from '../search/search-box.component';
 import { getCompanies } from '../../../services/companies';
 import PagingToolbarComponent, {
   pageObj,
-  DEFAULT_PAGE_SIZE,
   updatePagination,
   clientPaginate
 } from '../paging/paging-toolbar';
@@ -51,18 +50,18 @@ const TableComponent = () => {
   const [data, setData] = useState<iCompanyItem[]>([]);
   const [currentDropdownValue, setCurrentDropdownValue] = useState<number>(-1);
   const [resetSearch, setResetSearch] = useState<boolean>(false);
-  const {palette} = useTheme();
+  const { palette } = useTheme();
 
   const handlePageChange = (currentPage: number, pageSize: string) => {
     setPagingInfo(updatePagination(currentPage, pageSize, pagingInfo));
   };
-  
+
   const dropdownStatusClear = () => {
     dropdownStatusChange(-1)
   };
-  
+
   const dropdownStatusChange = (value) => {
-  
+
     if (value) {
       setColumns(initColumns);
       setResetSearch(true);
@@ -111,21 +110,18 @@ const TableComponent = () => {
         firstItemNumber: 1,
         lastItemNumber: Number(pagingInfo.pageSize),
         totalCount: filteredRequest.length
-      });      
+      });
     } else {
       setPagingInfo({
         ...pagingInfo,
         currentPage: 1,
         firstItemNumber: 1,
         lastItemNumber: Number(pagingInfo.pageSize),
-        totalCount:requests.length
+        totalCount: requests.length
       });
     }
-  
+
     setCreateSuccess(true);
-    setTimeout(() => {
-      setCreateSuccess(false);
-    }, 3000); 
   };
 
   const handlePanelSubmit = (item: iCompanyItem) => {
@@ -145,17 +141,12 @@ const TableComponent = () => {
     }
 
     setUpdateSuccess(true);
-    setTimeout(() => {
-      setUpdateSuccess(false);
-    }, 3000);
   };
 
   const handlePanelDismiss = () => {
     setIsOpen(false);
     setIsOpenCreate(false);
   };
-
-
 
   const searchHandler = (value: string) => {
     setCurrentDropdownValue(-1);
@@ -332,8 +323,8 @@ const TableComponent = () => {
       key: "column1",
       name: "Company",
       fieldName: "column1",
-      minWidth: 100,
-      maxWidth: 200,
+      minWidth: 80,
+      maxWidth: 100,
       data: "string",
       onColumnClick: (ev, column) => { onColumnClickSort(ev, column) },
       isResizable: true,
@@ -342,11 +333,46 @@ const TableComponent = () => {
       key: "column2",
       name: "CEO",
       fieldName: "column2",
-      minWidth: 100,
-      maxWidth: 200,
+      minWidth: 80,
+      maxWidth: 180,
       data: "string",
       onColumnClick: (ev, column) => { onColumnClickSort(ev, column) },
       isResizable: true,
+    },
+    {
+      key: "column5",
+      name: "Status",
+      fieldName: "column5",
+      minWidth: 80,
+      maxWidth: 100,
+      onColumnClick: (ev, column) => { onColumnClickSort(ev, column) },
+      data: "number",
+      isResizable: true,
+      onRender: (item) => {
+        type colorMapType = {
+          [key: number]: string;
+        }
+        const itemVal = recordStatusEnum[item['column5']];
+        const colorMap: colorMapType = {
+          1: '#00B8D4',
+          2: '#00BFA5',
+          3: '#64DD17',
+          4: '#FF80AB',
+          5: '#FFEA00',
+          6: '#81C784'
+        };
+
+        return (
+          <span
+            className={styles.pill}
+            style={{
+              backgroundColor: colorMap[item['column5']],
+              borderColor: colorMap[item['column5']]
+            }}
+          >{itemVal.toUpperCase()}
+          </span>
+        )
+      }
     },
     {
       key: "column3",
@@ -380,41 +406,6 @@ const TableComponent = () => {
         return d;
       }
     },
-    {
-      key: "column5",
-      name: "Status",
-      fieldName: "column5",
-      minWidth: 100,
-      maxWidth: 160,
-      onColumnClick: (ev, column) => { onColumnClickSort(ev, column) },
-      data: "number",
-      isResizable: true,
-      onRender: (item) => {
-        type colorMapType = {
-          [key: number]: string;
-        }
-        const itemVal = recordStatusEnum[item['column5']];
-        const colorMap: colorMapType = {
-          1: '#00B8D4',
-          2: '#00BFA5',
-          3: '#64DD17',
-          4: '#FF80AB',
-          5: '#FFEA00',
-          6: '#81C784'
-        };
-
-        return (
-          <span
-            className={styles.pill}
-            style={{
-              backgroundColor: colorMap[item['column5']],
-              borderColor: colorMap[item['column5']]
-            }}
-          >{itemVal.toUpperCase()}
-          </span>
-        )
-      }
-    }
   ];
 
   const Table = () => (
@@ -451,24 +442,6 @@ const TableComponent = () => {
 
   return (
     <>
-      {
-        createSuccess && (
-          <MessageBar
-            messageBarType={MessageBarType.success}
-            isMultiline={false}
-          >Create Success!
-          </MessageBar>
-        )
-      }
-      {
-        updateSuccess && (
-          <MessageBar
-            messageBarType={MessageBarType.success}
-            isMultiline={false}
-          >Update Success!
-          </MessageBar>
-        )
-      }
       <CustomPanelComponent
         isOpen={isOpenCreate}
         headerText="Create New Item"
@@ -483,6 +456,26 @@ const TableComponent = () => {
         onDismiss={() => handlePanelDismiss()}
         onSubmit={(item) => handlePanelSubmit(item)}
       />
+      {
+        createSuccess && (
+          <MessageBarComponent
+            type="success"
+            text="Create Success"
+            closeDelay={8}
+            onClose={() => setCreateSuccess(false)}
+          />
+        )
+      }
+      {
+        updateSuccess && (
+          <MessageBarComponent
+            type="success"
+            text="Update Success"
+            closeDelay={8}
+            onClose={() => setUpdateSuccess(false)}
+          />
+        )
+      }
       <h3 className={styles.tableHeading}>Company Data</h3>
       <div>
         {!isLoading && (
@@ -496,22 +489,22 @@ const TableComponent = () => {
               />
             </Stack>
             <Stack className={styles.filtersWrapper} horizontal horizontalAlign='space-between'>
-                <RequestFilterSearchBox
-                  search={(value: string) => searchHandler(value)}
-                  placeholder="Search"
-                  labelText="Search Company and CEO Fields"
-                  showSearchButton={false}
-                  reset={resetSearch}
-                />
-                <CustomStatusDropdown
-                  label="Filter Status"
-                  onClearValue={() => dropdownStatusClear()}
-                  handleChange={(evt) => {
-                    const value = evt.target.value.key;
-                    dropdownStatusChange(value);
-                  }}
-                  currentValue={currentDropdownValue}
-                />
+              <RequestFilterSearchBox
+                search={(value: string) => searchHandler(value)}
+                placeholder="Search"
+                labelText="Search Company and CEO"
+                showSearchButton={true}
+                reset={resetSearch}
+              />
+              <CustomStatusDropdown
+                label="Filter Status"
+                onClearValue={() => dropdownStatusClear()}
+                handleChange={(evt) => {
+                  const value = evt.target.value.key;
+                  dropdownStatusChange(value);
+                }}
+                currentValue={currentDropdownValue}
+              />
             </Stack>
           </Stack>
         )

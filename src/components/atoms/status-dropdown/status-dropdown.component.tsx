@@ -9,7 +9,7 @@ const statusItems = Object.keys(recordStatusEnum).filter(k => !isNaN(Number(k)))
   return {key: Number(item), text: recordStatusEnum[Number(item)]}
 });
 
-statusItems.unshift({key: -1, text: 'select status'});
+statusItems.unshift({key: -1, text: 'Select Status'});
 
 interface Props {
   label?: string;

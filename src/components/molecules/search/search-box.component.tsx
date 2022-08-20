@@ -3,6 +3,7 @@ import { IconButton, Stack, SearchBox, ISearchBoxProps, useTheme, Label } from "
 import CustomInput, { InputTypes } from "../../atoms/input/custom-input.component";
 
 import { styles } from "./search-box.styles";
+const partial = {field:{ fontSize: '16px'}};
 
 const containerStackTokens = { childrenGap: 10 };
 
@@ -60,10 +61,12 @@ const RequestFilterSearchBox: FC<Props> = ({ search, placeholder, reset, labelTe
       { !showSearchButton ? (
       <Stack className={styles.searchwrap}>
 
-        <Label>{currentSearch !== '' ? (
+        <Label htmlFor="searchBox1">{currentSearch !== '' ? (
             <span className={styles.activeSearchLabel} style={tabStyle}>{`Searching "${currentSearch}"`}</span>
           ) : labelText }</Label>
         <SearchBox
+          id="searchBox1"
+          styles={partial}
           placeholder={ placeholder }
           onSearch={() => handleSubmitSearch()}
           onChange={(evt) => {
