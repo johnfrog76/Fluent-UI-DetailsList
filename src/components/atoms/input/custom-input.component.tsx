@@ -25,7 +25,6 @@ export const InputTypes = {
 };
 
 const calloutProps = { gapSpace: 0 };
-const styleProps = {field: {fontSize: '16px !important'}, dropdown: {fontSize: '16px'}};
 
 const CustomInput = ({ type, toolTipInfo, name, onChange, ...otherProps }) => {
   const [options, setOptions] = useState([]);
@@ -62,7 +61,6 @@ const CustomInput = ({ type, toolTipInfo, name, onChange, ...otherProps }) => {
       <TextField
         {...otherProps}
         name={name}
-        styles={styleProps}
         onChange={(e) =>
           onChange({
             target: { type: type, value: e.target.value, name: name },
@@ -75,7 +73,6 @@ const CustomInput = ({ type, toolTipInfo, name, onChange, ...otherProps }) => {
       <Dropdown
         {...otherProps}
         name={name}
-        styles={styleProps}
         onChange={(e, item) =>
           onChange({ target: { type: type, value: item, name: name } })
         }
@@ -86,7 +83,6 @@ const CustomInput = ({ type, toolTipInfo, name, onChange, ...otherProps }) => {
       <CustomDatePickerComponent
         {...otherProps}
         name={name}
-        styles={styleProps}
         handleChange={(value) =>
           onChange({ target: { value: value, type: type, name: name } })
         }
@@ -97,7 +93,6 @@ const CustomInput = ({ type, toolTipInfo, name, onChange, ...otherProps }) => {
       <SpinButton
         {...otherProps}
         name={name}
-        styles={styleProps}
         onChange={(e, item) =>
           onChange({ target: { type: type, value: item, name: name } })
         }
@@ -115,12 +110,12 @@ const CustomInput = ({ type, toolTipInfo, name, onChange, ...otherProps }) => {
     );
   } else if (type === "combobox") {
     inputItem = (
-      <ComboBox {...otherProps} name={name} onChange={onChangeHandler} styles={styleProps} />
+      <ComboBox {...otherProps} name={name} onChange={onChangeHandler} />
     );
   } else if (type == "file") {
     inputItem = (
       <div>
-        <input type="file" {...otherProps} name={name} onChange={onChange} styles={styleProps} />
+        <input type="file" {...otherProps} name={name} onChange={onChange} />
       </div>
     );
   } else if (type === "choicegroup") {
@@ -141,7 +136,7 @@ const CustomInput = ({ type, toolTipInfo, name, onChange, ...otherProps }) => {
     );
   } else if(type === InputTypes.NUMBER) {
     inputItem = (
-      <TextField type={InputTypes.NUMBER} styles={styleProps} name={name} onChange={onChange} {...otherProps} />
+      <TextField type={InputTypes.NUMBER} name={name} onChange={onChange} {...otherProps} />
     );
   }
 

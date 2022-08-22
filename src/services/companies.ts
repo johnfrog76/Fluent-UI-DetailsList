@@ -2,7 +2,7 @@ import { iCompanyItem } from "../models/company/company";
 import { recordStatusEnum } from "../models/company/company";
 
 export const getCompanies = (num: number) => {
-  const companies = ['Contoso', 'ACME', 'AAA Test Co.', 'Green Inc.', 'Fooloolio.com', 'ZZZ test'];
+  const companies = ['Contoso', 'ACME', 'AAA Test Co.', 'Green Inc.', 'Dot.com Inc.', 'ZZZ Test'];
   const ceos = ['Bob Smith', 'Tim Smith', 'Zeek Smith', 'Ron Smith', 'Fred Smith', 'Aaron Smith'];
   const salaries = [500000, 1000000, 10000000, 6000000, 3000000, 200000];
   const daysAgo = [10, 100, 600, 800, 1500, 30];

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { IconButton, Stack, MessageBar, MessageBarType, useTheme } from "@fluentui/react";
+import { IconButton, Stack, useTheme } from "@fluentui/react";
 import { DetailsList, DetailsRow, DetailsHeader, SelectionMode, IDetailsRowStyles } from '@fluentui/react/lib/DetailsList';
 import { Spinner } from '@fluentui/react';
 
@@ -22,7 +22,7 @@ import PagingToolbarComponent, {
 } from '../paging/paging-toolbar';
 
 const EditIcon = { iconName: "Edit" };
-const ViewIcon = { iconName: "View" };
+// const ViewIcon = { iconName: "View" };
 
 const statusFilter = (value: number, items: iCompanyItem[]) => {
   if (value === -1) {

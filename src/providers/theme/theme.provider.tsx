@@ -31,7 +31,7 @@ const MyTheme: FC<Props> = ({ children }) => {
   useEffect(() => {
     const tempTheme = currentTheme === ThemeEnum.Dark ? darkTheme : lightTheme;
     setUsedTheme(tempTheme);
-    //console.log(tempTheme)
+    console.log(tempTheme)
   }, [currentTheme])
 
   return (
