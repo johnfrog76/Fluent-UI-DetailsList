@@ -201,6 +201,9 @@ const TableComponent = () => {
       root: {
         fontSize: '16px',
         color: filteredRequest ? palette['themeDarkAlt'] : 'inherit',
+      },
+      cell: {
+        padding: '12px 12px 6px 12px'
       }
     }
     return <DetailsRow {...props} styles={rowStyles} />
@@ -343,8 +346,8 @@ const TableComponent = () => {
       key: "column5",
       name: "Status",
       fieldName: "column5",
-      minWidth: 80,
-      maxWidth: 100,
+      minWidth: 100,
+      maxWidth: 120,
       onColumnClick: (ev, column) => { onColumnClickSort(ev, column) },
       data: "number",
       isResizable: true,
@@ -378,8 +381,8 @@ const TableComponent = () => {
       key: "column3",
       name: "Earnings",
       fieldName: "column3",
-      minWidth: 80,
-      maxWidth: 100,
+      minWidth: 100,
+      maxWidth: 120,
       onColumnClick: (ev, column) => { onColumnClickSort(ev, column) },
       data: "string",
       isResizable: true,

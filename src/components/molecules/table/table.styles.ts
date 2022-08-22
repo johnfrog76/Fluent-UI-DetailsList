@@ -1,4 +1,4 @@
-import { mergeStyleSets, DefaultPalette, ISpinnerProps } from "@fluentui/react";
+import { mergeStyleSets, ISpinnerProps } from "@fluentui/react";
 
 export const styles = mergeStyleSets({
   tableHeading: {
