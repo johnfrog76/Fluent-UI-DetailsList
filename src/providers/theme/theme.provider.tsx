@@ -1,5 +1,5 @@
 import React, { createContext, useState, FC, useEffect } from "react";
-import {ThemeProvider, createTheme, Theme, IPalette } from "@fluentui/react";
+import {ThemeProvider, createTheme, Theme } from "@fluentui/react";
 import { DARK_THEME, LIGHT_THEME } from "./theme.constants";
 
 export enum ThemeEnum {
@@ -20,17 +20,18 @@ interface Props {
 }
 
 export const ThemeContext = createContext<ThemeContextType>({
-    currentTheme: ThemeEnum.Light,
+    currentTheme: ThemeEnum.Dark,
     setCurrentTheme: (theme) => { },
 });
 
 const MyTheme: FC<Props> = ({ children }) => {
-  const [currentTheme, setCurrentTheme] = useState(ThemeEnum.Light);
-  const [usedTheme, setUsedTheme] = useState<Theme>(lightTheme);
+  const [currentTheme, setCurrentTheme] = useState(ThemeEnum.Dark);
+  const [usedTheme, setUsedTheme] = useState<Theme>(darkTheme);
 
   useEffect(() => {
     const tempTheme = currentTheme === ThemeEnum.Dark ? darkTheme : lightTheme;
     setUsedTheme(tempTheme);
+    console.log(tempTheme)
   }, [currentTheme])
 
   return (

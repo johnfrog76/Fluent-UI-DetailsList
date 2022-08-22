@@ -80,7 +80,7 @@ export const styles = mergeStyleSets({
       flex: '1',
     },
     '&> div:last-child': {
-      flex: '0 0 200px',
+      flex: '0 1 150px',
       marginLeft: '1rem',
     }
   }

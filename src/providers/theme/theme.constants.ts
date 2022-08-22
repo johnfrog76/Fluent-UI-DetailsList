@@ -23,6 +23,11 @@ export const DARK_THEME = {
     themeDark: "#65aee6",
     themeDarker: "#8ac2ec",
     accent: "#3a96dd"
+  },
+  fonts: {
+    medium: {
+      fontSize: '16px'
+    }
   }
 };
 
@@ -60,4 +65,9 @@ export const LIGHT_THEME = {
     buttonTextHovered: '#252424',
     buttonBorder: '#bdbdbd',
   },
+  fonts: {
+    medium: {
+      fontSize: '16px'
+    }
+  }
 }

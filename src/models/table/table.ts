@@ -7,6 +7,6 @@ export interface iDetailsListColumn {
   maxWidth: number;
   data?: string;
   onColumnClick?: (ev: Event, column: any) => void,
-  isResizable: true,
+  isResizable: boolean,
   onRender?: (item: any) => void
 }
