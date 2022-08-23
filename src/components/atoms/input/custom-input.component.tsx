@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import {
   TextField,
@@ -7,11 +7,11 @@ import {
   Checkbox,
   ComboBox,
   ChoiceGroup,
+  useTheme,
 } from "@fluentui/react";
 import { TooltipHost } from "@fluentui/react/lib/Tooltip";
-
 import CustomDatePickerComponent from '../date-picker/custom-date-picker';
-
+import { ThemeContext, ThemeEnum } from "../../../providers/theme/theme.provider";
 export const InputTypes = {
   TEXTFIELD: "textfield",
   DROPDOWN: "dropdown",
@@ -27,6 +27,10 @@ export const InputTypes = {
 const calloutProps = { gapSpace: 0 };
 
 const CustomInput = ({ type, toolTipInfo, name, onChange, ...otherProps }) => {
+  const { palette } = useTheme();
+  const { currentTheme } = useContext(ThemeContext);
+  const requiredColor = currentTheme === ThemeEnum.Dark ? palette['red'] : palette['darkRed'];
+  const requiredStyle = { root: { 'label::after': { color: requiredColor}} };
   const [options, setOptions] = useState([]);
 
   onChange = onChange ? onChange : () => {};
@@ -60,6 +64,7 @@ const CustomInput = ({ type, toolTipInfo, name, onChange, ...otherProps }) => {
     inputItem = (
       <TextField
         {...otherProps}
+        styles={requiredStyle}
         name={name}
         onChange={(e) =>
           onChange({

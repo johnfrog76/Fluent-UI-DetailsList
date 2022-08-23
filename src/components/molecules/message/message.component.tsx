@@ -46,6 +46,7 @@ const MessageBarComponent:FC<Props> = ({type, text, onClose, closeDelay=6}) => {
     let t = setTimeout(() => {
       clearTimeout(t);
       setShowMessage(false);
+      onClose();
     }, delay);
   }, [delay])
     
