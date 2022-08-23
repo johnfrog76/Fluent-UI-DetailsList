@@ -94,7 +94,7 @@ const TableComponent = () => {
   };
 
   const handlePanelCreate = (item: iCompanyItem) => {
-    console.log('create', item.id)
+    // console.log('create', item.id)
     if (pagedRequest && pagedRequest.length > 0) {
       data.unshift(item);
       setRequests(data);
@@ -126,7 +126,7 @@ const TableComponent = () => {
   };
 
   const handlePanelUpdate = (item: iCompanyItem) => {
-    console.log(item.id)
+    // console.log(item.id)
     if (pagedRequest && pagedRequest.length > 0) {
       const dataIdx = data.findIndex(d => d.id === item.id);
       const idx = pagedRequest.findIndex(p => p.id === item.id);
