@@ -11,7 +11,7 @@ import { copyAndSort } from './table.util';
 import MessageBarComponent from '../message/message.component';
 import CustomStatusDropdown from '../../atoms/status-dropdown/status-dropdown.component';
 
-import CustomPanelComponent, { emptyCompanyItem } from '../panel/panel.component';
+import CustomPanelComponent, { getEmptyCompanyItem } from '../panel/panel.component';
 import CustomButtonComponent from '../../atoms/custom-button/custom-button.component';
 import RequestFilterSearchBox from '../search/search-box.component';
 import { getCompanies } from '../../../services/companies';
@@ -94,6 +94,7 @@ const TableComponent = () => {
   };
 
   const handlePanelCreate = (item: iCompanyItem) => {
+    console.log('create', item.id)
     if (pagedRequest && pagedRequest.length > 0) {
       data.unshift(item);
       setRequests(data);
@@ -124,8 +125,8 @@ const TableComponent = () => {
     setCreateSuccess(true);
   };
 
-  const handlePanelSubmit = (item: iCompanyItem) => {
-
+  const handlePanelUpdate = (item: iCompanyItem) => {
+    console.log(item.id)
     if (pagedRequest && pagedRequest.length > 0) {
       const dataIdx = data.findIndex(d => d.id === item.id);
       const idx = pagedRequest.findIndex(p => p.id === item.id);
@@ -448,7 +449,7 @@ const TableComponent = () => {
       <CustomPanelComponent
         isOpen={isOpenCreate}
         headerText="Create New Item"
-        item={emptyCompanyItem}
+        item={getEmptyCompanyItem()}
         onDismiss={() => handlePanelDismiss()}
         onSubmit={(item) => handlePanelCreate(item)}
       />
@@ -457,7 +458,7 @@ const TableComponent = () => {
         headerText="Edit Company Details"
         item={selectedPanelItem}
         onDismiss={() => handlePanelDismiss()}
-        onSubmit={(item) => handlePanelSubmit(item)}
+        onSubmit={(item) => handlePanelUpdate(item)}
       />
       {
         createSuccess && (
