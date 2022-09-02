@@ -2,6 +2,7 @@
 Searchable fields, column sort and paging toolbar using Fluent UI components -- DetailsList
 
 View at https://replit.com/@JohnWebster/FluentUI
+or https://johnfrog76.github.io/Fluent-UI-DetailsList/
 
 ### Github pages - publish workflow
 * Main branch is used for gh pages deploy (do not use it)
