@@ -24,7 +24,7 @@ export const getCompanies = (num: number) => {
      })   
   }
   
-  const myPromise = new Promise((resolve, reject) => {
+  const myPromise = new Promise<iCompanyItem[]>((resolve, reject) => {
     setTimeout(() => {
       resolve(ret);
     }, 3000);

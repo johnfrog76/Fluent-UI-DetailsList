@@ -86,17 +86,18 @@ export const styles = mergeStyleSets({
   }
 });
 
-export const spinnerStyles: Partial<ISpinnerProps> = {
-  root: {},
-  circle: {
-    borderColor: 'teal #00808063 #00808063',
-    borderWidth: '0.25rem',
-    width: '3rem',
-    height: '3rem'
-  },
-  label: {
-    color: 'teal',
-    fontSize: '1rem',
-    fontWeight: '600'
+export const spinnerStyles = mergeStyleSets({
+    root: {},
+    circle: {
+      borderColor: 'teal #00808063 #00808063',
+      borderWidth: '0.25rem',
+      width: '3rem',
+      height: '3rem'
+    },
+    label: {
+      color: 'teal',
+      fontSize: '1rem',
+      fontWeight: '600'
+    }
   }
-}
+)

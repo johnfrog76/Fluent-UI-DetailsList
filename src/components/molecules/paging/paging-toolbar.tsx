@@ -38,7 +38,7 @@ interface Props {
   pagingInfo: iPageObj;
 }
 
-export const updatePagination = (newCurrentPage: number, newPageSize: string | null = null, pagingInfo: iPageObj, requests: any[]) => {
+export const updatePagination = (newCurrentPage: number, newPageSize: string | null = null, pagingInfo: iPageObj) => {
   let { currentPage, firstItemNumber, lastItemNumber, totalCount, pageSize } = pagingInfo;
   pageSize = newPageSize ? newPageSize : pageSize;
   let pageSizeNum: number = parseInt(pageSize);
@@ -59,7 +59,7 @@ export const updatePagination = (newCurrentPage: number, newPageSize: string | n
 };
 
 const PagingToolbarComponent: FC<Props> = ({ onPageUpdate, pageOptions, defaultOption, displayDropdown = true, ...pagingInfo }) => {
-
+  // @ts-ignore
   const { currentPage, firstItemNumber, lastItemNumber, totalCount, pageSize } = pagingInfo;
   const pagingLabelTemplate = `${firstItemNumber} - ${Math.min(lastItemNumber, totalCount)} of ${totalCount} selected`;
   const handlePageClick = (type: string, size = pageSize) => {
