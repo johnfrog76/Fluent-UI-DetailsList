@@ -1,10 +1,10 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, MouseEvent } from 'react';
 import { IconButton, Stack, useTheme } from "@fluentui/react";
-import { DetailsList, DetailsRow, DetailsHeader, SelectionMode, IDetailsRowStyles } from '@fluentui/react/lib/DetailsList';
+import { DetailsList, DetailsRow, DetailsHeader, SelectionMode, IColumn, IDetailsRowStyles } from '@fluentui/react/lib/DetailsList';
 import { Spinner } from '@fluentui/react';
 
 import { iPageObj } from '../../../models/paging/paging';
-import { iDetailsListColumn } from '../../../models/table/table';
+//import { iDetailsListColumn } from '../../../models/table/table';
 import { iCompanyItem, recordStatusEnum } from '../../../models/company/company';
 import { styles, spinnerStyles } from './table.styles';
 import { copyAndSort } from './table.util';
@@ -36,7 +36,7 @@ const statusFilter = (value: number, items: iCompanyItem[]) => {
 const TableComponent = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [pagingInfo, setPagingInfo] = useState<iPageObj>(pageObj);
-  const [columns, setColumns] = useState<iDetailsListColumn[]>([]);
+  const [columns, setColumns] = useState<IColumn[]>([]);
   const [canSortColumns, setCanSortColumns] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenCreate, setIsOpenCreate] = useState(false);
@@ -61,7 +61,6 @@ const TableComponent = () => {
   };
 
   const dropdownStatusChange = (value) => {
-
     if (value) {
       setColumns(initColumns);
       setResetSearch(true);
@@ -184,7 +183,7 @@ const TableComponent = () => {
     }
   };
 
-  const onColumnClickSort = (evt: Event, column: any) => {
+  const onColumnClickSort = (evt, column: IColumn) => {
     if (filteredRequest && filteredRequest.length === 0) {
       setFilteredRequest(undefined);
     }
@@ -237,6 +236,7 @@ const TableComponent = () => {
 
       const pageSizeNum = parseInt(pagingInfo.pageSize)
       setRequests(sortedData);
+      {/* @ts-ignore */ }
       setPagedRequest(clientPaginate(myRequests, 1, pageSizeNum));
     }
   }, [canSortColumns]);
@@ -297,13 +297,15 @@ const TableComponent = () => {
 
   useEffect(() => {
     if (pagingInfo.query.length > 0 && filteredRequest) {
+      {/* @ts-ignore */ }
       setPagedRequest(clientPaginate(filteredRequest, pagingInfo.firstItemNumber, pagingInfo.lastItemNumber));
     } else {
+      {/* @ts-ignore */ }
       setPagedRequest(clientPaginate(requests, pagingInfo.firstItemNumber, pagingInfo.lastItemNumber));
     }
   }, [pagingInfo]);
 
-  const initColumns: iDetailsListColumn[] = [
+  const initColumns: IColumn[] = [
     {
       key: "editStatus",
       name: "",
@@ -426,6 +428,7 @@ const TableComponent = () => {
               onRenderRow={renderRow}
               onRenderDetailsHeader={renderDetailsHeader}
             />
+            {/* @ts-ignore */}
             <PagingToolbarComponent
               onPageUpdate={(currentPage, pageSize) => handlePageChange(currentPage, pageSize)}
               {...pagingInfo}

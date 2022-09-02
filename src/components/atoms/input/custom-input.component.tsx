@@ -1,5 +1,4 @@
 import { useState, useContext } from "react";
-
 import {
   TextField,
   Dropdown,
@@ -26,14 +25,14 @@ export const InputTypes = {
 
 const calloutProps = { gapSpace: 0 };
 
-const CustomInput = ({ type, toolTipInfo, name, onChange, ...otherProps }) => {
+const CustomInput = ({ type, toolTipInfo = null, name, onChange, ...otherProps }) => {
   const { palette } = useTheme();
   const { currentTheme } = useContext(ThemeContext);
   const requiredColor = currentTheme === ThemeEnum.Dark ? palette['red'] : palette['darkRed'];
-  const requiredStyle = { root: { 'label::after': { color: requiredColor}} };
+  const requiredStyle = { root: { 'label::after': { color: requiredColor } } };
   const [options, setOptions] = useState([]);
 
-  onChange = onChange ? onChange : () => {};
+  onChange = onChange ? onChange : () => { };
 
   const onChangeHandler = async (event, option) => {
     if (option.selected) {
@@ -68,7 +67,7 @@ const CustomInput = ({ type, toolTipInfo, name, onChange, ...otherProps }) => {
         name={name}
         onChange={(e) =>
           onChange({
-            target: { type: type, value: e.target.value, name: name },
+            target: { type: type, value: e.currentTarget.value, name: name },
           })
         }
       />
@@ -76,10 +75,13 @@ const CustomInput = ({ type, toolTipInfo, name, onChange, ...otherProps }) => {
   } else if (type === "dropdown") {
     inputItem = (
       <Dropdown
+        options={options}
         {...otherProps}
-        name={name}
-        onChange={(e, item) =>
-          onChange({ target: { type: type, value: item, name: name } })
+        id={name}
+        onChange={(e, item) => {
+          const myId = e.currentTarget.id;
+          onChange({ target: { type: type, value: item, name: myId } })
+        }
         }
       />
     );
@@ -97,9 +99,11 @@ const CustomInput = ({ type, toolTipInfo, name, onChange, ...otherProps }) => {
     inputItem = (
       <SpinButton
         {...otherProps}
-        name={name}
-        onChange={(e, item) =>
-          onChange({ target: { type: type, value: item, name: name } })
+        id={name}
+        onChange={(e, item) => {
+          const myId = e.currentTarget.id;
+          onChange({ target: { type: type, value: item, name: myId } })
+        }
         }
       />
     );
@@ -115,7 +119,11 @@ const CustomInput = ({ type, toolTipInfo, name, onChange, ...otherProps }) => {
     );
   } else if (type === "combobox") {
     inputItem = (
-      <ComboBox {...otherProps} name={name} onChange={onChangeHandler} />
+      <ComboBox
+        options={options}
+        {...otherProps}
+        id={name}
+        onChange={onChangeHandler} />
     );
   } else if (type == "file") {
     inputItem = (
@@ -139,7 +147,7 @@ const CustomInput = ({ type, toolTipInfo, name, onChange, ...otherProps }) => {
         }}
       />
     );
-  } else if(type === InputTypes.NUMBER) {
+  } else if (type === InputTypes.NUMBER) {
     inputItem = (
       <TextField type={InputTypes.NUMBER} name={name} onChange={onChange} {...otherProps} />
     );
