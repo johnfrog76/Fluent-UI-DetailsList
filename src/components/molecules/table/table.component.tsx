@@ -1,10 +1,9 @@
-import { useState, useEffect, useCallback, MouseEvent } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { IconButton, Stack, useTheme } from "@fluentui/react";
 import { DetailsList, DetailsRow, DetailsHeader, SelectionMode, IColumn, IDetailsRowStyles } from '@fluentui/react/lib/DetailsList';
 import { Spinner } from '@fluentui/react';
 
 import { iPageObj } from '../../../models/paging/paging';
-//import { iDetailsListColumn } from '../../../models/table/table';
 import { iCompanyItem, recordStatusEnum } from '../../../models/company/company';
 import { styles, spinnerStyles } from './table.styles';
 import { copyAndSort } from './table.util';
