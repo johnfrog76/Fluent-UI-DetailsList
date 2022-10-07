@@ -35,7 +35,7 @@ type Props = {
   pageOptions: pageOptionType[];
   defaultOption: string;
   displayDropdown?: boolean;
-  pagingInfo: {pagingInfo: iPageObj};
+  pagingInfo: { pagingInfo: iPageObj };
 }
 
 export const updatePagination = (newCurrentPage: number, newPageSize: string | null = null, pagingInfo: iPageObj) => {
@@ -59,6 +59,7 @@ export const updatePagination = (newCurrentPage: number, newPageSize: string | n
 };
 
 const PagingToolbarComponent: FC<Props> = ({ onPageUpdate, pageOptions, defaultOption, displayDropdown = true, ...pagingInfo }) => {
+  // @ts-ignore
   const { currentPage, firstItemNumber, lastItemNumber, totalCount, pageSize } = pagingInfo;
   const pagingLabelTemplate = `${firstItemNumber} - ${Math.min(lastItemNumber, totalCount)} of ${totalCount} selected`;
   const handlePageClick = (type: string, size = pageSize) => {
