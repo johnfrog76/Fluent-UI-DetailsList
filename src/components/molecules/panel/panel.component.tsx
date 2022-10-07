@@ -57,6 +57,7 @@ const CustomPanelComponent: FC<Props> = ({ isOpen, onDismiss, onSubmit, headerTe
 
   const handleChange = (evt) => {
     const { name, value, type} = evt.target;
+    
     setIsDirty(true);
 
     if (type === 'dropdown') {
@@ -195,8 +196,11 @@ const CustomPanelComponent: FC<Props> = ({ isOpen, onDismiss, onSubmit, headerTe
               label="Status"
               name="column5"
               options={statusItems}
-              defaultSelectedKey={formObj?.column5}
-              onChange={(evt) => handleChange(evt)}
+              defaultSelectedKey={formObj.column5}
+              onChange={(evt) => {
+                evt.target.name = 'column5';
+                handleChange(evt)
+              }}
             />
             )
           }
